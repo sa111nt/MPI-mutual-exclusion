@@ -81,8 +81,8 @@ bool get_deferred_replies(int index);
 // Wysyła wiadomość do procesu docelowego, nie dbając o synchronizację zegara Lamporta
 void send_message(Message msg, int dest)
 {
-    MPI_Send(&msg, sizeof(Message), MPI_BYTE, dest, TAG, MPI_COMM_WORLD);
-    printf("[%d] [t%d] Wyslano %s do %d dla miasta %d\n", rank, lamport_clock,
+    MPI_Send(&msg, sizeof(Message), MPI_BYTE, dest, TAG, MPI_COMM_WORLD);    
+  //printf("[%d] [t%d] Wyslano %s do %d dla miasta %d\n", rank, lamport_clock,
            msg.type == REQ ? "REQ" : "ACK", dest, msg.city_id);
 }
 
@@ -102,7 +102,7 @@ void handle_message(Message *msg)
 
     if (msg->type == REQ)
     {
-        printf("[%d] [t%d] Otrzymano REQ od %d dla miasta %d\n", rank, read_clock(), msg->sender_id, msg->city_id);
+      //printf("[%d] [t%d] Otrzymano REQ od %d dla miasta %d\n", rank, read_clock(), msg->sender_id, msg->city_id);
 
         bool send_ack = false;
 
@@ -138,7 +138,7 @@ void handle_message(Message *msg)
     }
     else if (msg->type == ACK)
     {
-        printf("[%d] [t%d] Otrzymano ACK od %d dla miasta %d\n", rank, read_clock(), msg->sender_id, msg->city_id);
+      //printf("[%d] [t%d] Otrzymano ACK od %d dla miasta %d\n", rank, read_clock(), msg->sender_id, msg->city_id);
         if (!get_ack_received(msg->sender_id))
         {
             update_ack_received(msg->sender_id, true);
